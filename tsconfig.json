@@ -1,0 +1,38 @@
+{
+    "version": "1.4.1",
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "declaration": false,
+        "noImplicitAny": false,
+        "removeComments": true,
+        "noLib": false,
+        "outDir": "./public"
+    },
+    "filesGlob": [
+        "./src/**/*.ts",
+        "./typings/**/*.d.ts"
+    ],
+    "files": [
+        "./src/combat.ts",
+        "./src/constants.ts",
+        "./src/diagram.ts",
+        "./src/game.ts",
+        "./src/game_command.ts",
+        "./src/game_interface.ts",
+        "./src/game_map.ts",
+        "./src/game_proxy.ts",
+        "./src/hex.ts",
+        "./src/id_allocator.ts",
+        "./src/maps.ts",
+        "./src/player.ts",
+        "./src/server.ts",
+        "./src/unit_groups.ts",
+        "./src/units.ts",
+        "./src/view.ts",
+        "./typings/d3/d3.d.ts",
+        "./typings/hexlib.d.ts",
+        "./typings/jquery/jquery.d.ts",
+        "./typings/underscore/underscore.d.ts"
+    ]
+}

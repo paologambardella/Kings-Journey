@@ -1,0 +1,103 @@
+svg {
+    pointer-events: visiblePainted;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+svg > * {
+    pointer-events: none;
+}
+
+.tile polygon, #diagram-map-storage-array rect {
+    pointer-events: visiblePainted;
+    fill: hsl(60, 10%, 95%);
+    stroke: hsl(0, 0%, 70%);
+    stroke-width: 1;
+}
+
+#map .forest polygon { fill: hsl( 120, 50%, 30%); }
+#map .rebel-camp polygon { fill: hsl(0, 50%, 70%); }
+#map .road polygon { fill: hsl(180, 5%, 50%); }
+#map .town polygon { fill: hsl(180, 10%, 30%); }
+#map .town.depleted polygon { fill: hsl(180, 5%, 40%); }
+#map .port polygon { fill: hsl(60, 20%, 30%); }
+#map .castle polygon { fill: hsl(0, 0%, 80%); }
+#map .water polygon { fill: hsl(180, 50%, 50%); }
+
+#map .selected polygon {
+  stroke-width: 4;
+  stroke: hsl(180, 50%, 40%);
+}
+
+#map .possible-move polygon {
+  stroke-width: 4;
+  stroke: hsl(120, 20%, 70%);
+}
+
+#map text {
+  text-anchor: middle;
+  fill: white;
+  font-size: 16px;
+  font-weight: bold;
+  stroke: silver;
+}
+
+#map polygon:hover { fill: hsl(180,  50%, 80%); }
+
+#actions {
+  position: fixed;
+  bottom: 0;
+  right: 420px;
+  min-height: 2em;
+  border: 1px solid silver;
+  padding: 0.4em 0.7em;
+  margin: 0.5em;
+  background-color: white;
+}
+
+#battle-screen {
+  display: none;
+
+  position: fixed;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  border: 2px solid black;
+  background: white;
+  padding: 10px;
+  overflow: scroll;
+}
+
+#end-screen {
+  display: none;
+
+  position: fixed;
+  top: 20px;
+  bottom: 20px;
+  left: 20px;
+  right: 20px;
+  border: 2px solid black;
+  background: white;
+  padding: 10px;
+}
+
+#waiting, #loading {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  text-align: center;
+  padding-top: 200px;
+}
+
+#waiting {
+  display: none; /* starts hidden */
+  background: rgba(255,255,255,0.8);
+}
+
+#loading {
+  background: white;
+}

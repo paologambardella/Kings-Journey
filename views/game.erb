@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="/d3.js"></script>
+    <script src="/underscore.js"></script>
+    <script src="/compiled_hexlib.js"></script>
+    <script src="/jquery.js"></script>
+
+    <script src="/constants.js"></script>
+    <script src="/id_allocator.js"></script>
+    <script src="/player.js"></script>
+    <script src="/units.js"></script>
+    <script src="/unit_groups.js"></script>
+    <script src="/maps.js"></script>
+    <script src="/hex.js"></script>
+    <script src="/diagram.js"></script>
+    <script src="/game_map.js"></script>
+    <script src="/maps.js"></script>
+    <script src="/combat.js"></script>
+    <script src="/game_interface.js"></script>
+    <script src="/game.js"></script>
+    <script src="/server.js"></script>
+    <script src="/game_proxy.js"></script>
+    <script src="/view.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="/king.css">
+</head>
+<body>
+    <svg id="map" width="960" height="760"></svg>
+    <div id="actions">
+        <div id="game-id">GameID: <%= game_id %></div>
+        <div id="turn-number"></div>
+        <div id="current-player"></div>
+        <button id="next-turn">Next Turn</button>
+        <form id="selected-units"><ul></ul></form>
+    </div>
+
+    <div id="battle-screen">
+        <h3>Battle!!!</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>You</th>
+                    <th>Opponent</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="initial">
+                    <th>Initial</th>
+                    <td class="you"><ul></ul></td>
+                    <td class="opponent"><ul></ul></td>
+                </tr>
+                <tr class="first-attack-damage">
+                    <th>First attack damage</th>
+                    <td class="you"></td>
+                    <td class="opponent"></td>
+                </tr>
+                <tr class="first-attack-survivors">
+                    <th>First attack survivors</th>
+                    <td class="you"><ul></ul></td>
+                    <td class="opponent"><ul></ul></td>
+                </tr>
+                <tr class="second-attack-damage">
+                    <th>Second attack damage</th>
+                    <td class="you"></td>
+                    <td class="opponent"></td>
+                </tr>
+                <tr class="second-attack-survivors">
+                    <th>Second attack survivors</th>
+                    <td class="you"><ul></ul></td>
+                    <td class="opponent"><ul></ul></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button id="resolve-combat">Resolve Combat</button>
+    </div>
+
+    <div id="end-screen">
+        <div id="verdict"></div>
+    </div>
+
+    <div id="waiting">
+        <h3>Waiting for opponent to play...</h3>
+        <img src="/wait.gif" alt="waiting" />
+    </div>
+
+    <div id="loading">
+        <h3>Loading...</h3>
+        <img src="/wait.gif" alt="loading" />
+    </div>
+
+    <script>
+        // Game initialization
+        var game = new Game(<%= map %>);
+        <% if side == "rebel" %>
+            game.mySide = Side.Rebel;
+        <% elsif side == "imperial" %>
+            game.mySide = Side.Imperial;
+        <% end %>
+
+        var server = new Server(<%= game_id %>);
+        var gameProxy = new GameProxy(game, server);
+        var view = new View(gameProxy);
+        gameProxy.replay(function() {
+            view.update();
+            if(game.mySide != game.currentPlayer.side) {
+                // Wait for player one to play first.
+                view.waitForOtherPlayer();
+            }
+        }, <%= turn.inspect %>);
+
+        <% if settings.production? %>
+            // Google Analytics
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+            ga('create', 'UA-61932869-1', 'auto');
+            ga('send', 'pageview');
+
+            // Scrollback chat
+            window.scrollback = {
+                "room": "sentendo-room",
+                "form": "toast",
+                "minimize": true,
+            };
+            (function(d,s,h,e){
+                e=d.createElement(s);
+                e.async=1;
+                e.src=(location.protocol === "https:" ? "https:" : "http:") + "//scrollback.io/client.min.js";
+                d.getElementsByTagName(s)[0].parentNode.appendChild(e);
+            }(document,"script"));
+        <% end %>
+    </script>
+</body>
+</html>

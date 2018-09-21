@@ -1,0 +1,6 @@
+public/*.js
+!public/compiled_hexlib.js
+!public/d3.js
+!public/underscore.js
+!public/jquery.js
+data.db
